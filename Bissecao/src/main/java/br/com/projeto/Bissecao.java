@@ -7,7 +7,7 @@ public class Bissecao {
     static final int BUSCA_MIN = -1000;
     static final int BUSCA_MAX = 1000;
 
-    public static double f(double x, double[] coef) {
+    public static double funcaoPolinomial(double x, double[] coef) {
         double resultado = 0;
         for (int i = 0; i < coef.length; i++) {
             double potencia = 1;
@@ -22,11 +22,11 @@ public class Bissecao {
     public static Map<String, Object> bisseccao(double a, double b, double precisao, double[] coef) {
         int iteracoes = 0;
         double erro = Double.MAX_VALUE;
-        double c = 0;
+        double media = 0;
 
         while ((b - a) / 2 > precisao) {
-            c = (a + b) / 2;
-            double fc = f(c, coef);
+            media = (a + b) / 2;
+            double fp = funcaoPolinomial(media, coef);
             double erroTemp = b - a;
 
             if (erroTemp < 0) {
@@ -34,13 +34,15 @@ public class Bissecao {
             }
             erro = erroTemp / 2;
 
-            if (fc == 0.0 || erro < precisao)
+            if (fp == 0.0 || erro < precisao) {
                 break;
+            }
 
-            if (f(a, coef) * fc < 0)
-                b = c;
-            else
-                a = c;
+            if (funcaoPolinomial(a, coef) * fp < 0) {
+                b = media;
+            }else {
+                a = media;
+            }
 
             iteracoes++;
         }
@@ -56,8 +58,8 @@ public class Bissecao {
         List<double[]> intervalos = new ArrayList<>();
 
         for (int i = BUSCA_MIN; i < BUSCA_MAX; i++) {
-            double fa = f(i, coef);
-            double fb = f(i + 1, coef);
+            double fa = funcaoPolinomial(i, coef);
+            double fb = funcaoPolinomial(i + 1, coef);
             if (fa * fb < 0) {
                 intervalos.add(new double[]{i, i + 1});
             }
