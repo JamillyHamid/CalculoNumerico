@@ -10,7 +10,6 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Entrada dos coeficientes
         System.out.println("Informe o grau do polinômio (máximo 10): ");
         int grau = scanner.nextInt();
         if (grau > MAX_GRAU) {
@@ -19,24 +18,23 @@ public class Main {
         }
 
         double[] coef = new double[grau + 1];
-        System.out.println("Informe os coeficientes do termo de grau 0 até o grau " + grau + ":");
+        System.out.println("\nInforme os coeficientes do termo de grau 0 até o grau " + grau + ":");
         for (int i = 0; i <= grau; i++) {
             System.out.print("Coeficiente de x^" + i + ": ");
             coef[i] = scanner.nextDouble();
         }
 
-        // Precisão
-        System.out.print("Informe a precisão desejada (ex: 0.0001): ");
+        System.out.print("\nInforme a precisão desejada (ex: 0.0001): ");
         double precisao = scanner.nextDouble();
 
-        // Encontrar intervalos
         List<double[]> intervalos = encontrarIntervalos(coef);
         if (intervalos.isEmpty()) {
             System.out.println("Nenhum intervalo com mudança de sinal encontrado.");
             return;
         } else {
+            System.out.println("\nIntervalos Encontrados: ");
             for (double[] intervalo : intervalos) {
-                System.out.println("\n |" + intervalo[0] + " - " + intervalo[1] + " |");
+                System.out.println("[" + intervalo[0] + " - " + intervalo[1] + " ]");
             }
         }
 

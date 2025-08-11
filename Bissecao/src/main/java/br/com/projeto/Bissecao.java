@@ -4,19 +4,21 @@ import java.util.*;
 
 public class Bissecao {
     static final int MAX_GRAU = 10;
-    static final int BUSCA_MIN = -100;
-    static final int BUSCA_MAX = 100;
+    static final int BUSCA_MIN = -1000;
+    static final int BUSCA_MAX = 1000;
 
-    // Função polinomial
     public static double f(double x, double[] coef) {
         double resultado = 0;
         for (int i = 0; i < coef.length; i++) {
-            resultado += coef[i] * Math.pow(x, i);
+            double potencia = 1;
+            for (int j = 0; j < i; j++) {
+                potencia *= x;
+            }
+            resultado += coef[i] * potencia;
         }
         return resultado;
     }
 
-    // Método da Bissecção
     public static Map<String, Object> bisseccao(double a, double b, double precisao, double[] coef) {
         int iteracoes = 0;
         double erro = Double.MAX_VALUE;
@@ -25,7 +27,12 @@ public class Bissecao {
         while ((b - a) / 2 > precisao) {
             c = (a + b) / 2;
             double fc = f(c, coef);
-            erro = Math.abs(b - a) / 2;
+            double erroTemp = b - a;
+
+            if (erroTemp < 0) {
+                erroTemp = -erroTemp;
+            }
+            erro = erroTemp / 2;
 
             if (fc == 0.0 || erro < precisao)
                 break;
@@ -45,7 +52,6 @@ public class Bissecao {
         return resultado;
     }
 
-    // Busca de intervalos onde há mudança de sinal
     public static List<double[]> encontrarIntervalos(double[] coef) {
         List<double[]> intervalos = new ArrayList<>();
 
